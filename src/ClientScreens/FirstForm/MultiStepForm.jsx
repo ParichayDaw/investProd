@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Stepper, Step } from 'react-form-stepper';
-import styles from './Page.module.css';
-import "./Page.module.css";
+import './Page.css';
 import PageOne from './PageOne';
 import PageTwo from './PageTwo';
 import PageThree from './PageThree';
@@ -22,7 +21,7 @@ const MultiStepForm = () => {
     address: '',
     jobRole: '',
     agreement: false,
-    photoId: ''
+    photoId: { data: '', contentType: '' }, // Updated photoId structure
   });
 
   const [activeStep, setActiveStep] = useState(0);
@@ -36,6 +35,33 @@ const MultiStepForm = () => {
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
+
+  const [photoBase64, setPhotoBase64] = useState(null);
+
+  const handlePhotoUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+  
+    reader.onloadend = () => {
+      // Convert the file to base64 string
+      const base64String = reader.result;
+      setPhotoBase64(base64String);
+  
+      // Set photoID with base64 data and content type
+      setFormData({
+        ...formData,
+        photoId: {
+          data: base64String.split(',')[1], // Extract base64 data (omit 'data:image/jpeg;base64,')
+          contentType: file.type, // Get the content type from the file
+        },
+      });
+    };
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+  
 
   const validatePageOne = () => {
     const errors = {};
@@ -56,9 +82,36 @@ const MultiStepForm = () => {
     return errors;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+<<<<<<< Updated upstream
     console.log('Form submitted:', formData);
+=======
+    try {
+      const response = await fetch(`http://localhost:8000/api/v1/client/register-client`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(formData),
+      });
+
+      console.log(formData)
+
+      console.log('Response status:', response.status);
+
+      if (!response.ok) {
+        throw new Error('Failed ');
+      }
+
+      const data = await response.json();
+      console.log('response:', data);
+
+    } catch (error) {
+      console.error('Error.', error.message);
+    }
+>>>>>>> Stashed changes
   };
 
   const nextStep = () => {
@@ -98,17 +151,15 @@ const MultiStepForm = () => {
 
   return (
     <>
-      <div className={styles['StepperContainer-0-2-1']}>
-        <Stepper activeStep={activeStep}>
-          <Step label="Personal Details" />
-          <Step label="Questionnaire" />
-          <Step label="Terms & Conditions" />
-        </Stepper>
-      </div>
+      <Stepper activeStep={activeStep}>
+        <Step label="Personal Details" />
+        <Step label="Questionnaire" />
+        <Step label="Terms & Conditions" />
+      </Stepper>
 
-      <form className={styles['cl-form']} onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         {activeStep === 0 && (
-          <PageOne formData={formData} handleChange={handleFormChange} />
+          <PageOne formData={formData} handleChange={handleFormChange} uploadPhoto={handlePhotoUpload} />
         )}
         {activeStep === 1 && (
           <PageTwo formData={formData} handleChange={handleFormChange} />
@@ -116,19 +167,19 @@ const MultiStepForm = () => {
         {activeStep === 2 && (
           <PageThree agreed={formData.agreement} handleCheckboxChange={handleAgreementChange} />
         )}
-        <div className={`${styles.btns} ${termsAgreed ? styles['terms-agreed'] : ''}`}>
+        <div className={`btns ${termsAgreed ? 'terms-agreed' : ''}`}>
           {activeStep < 2 && (
-            <button type="button" className={styles['next-button']} onClick={nextStep}>Next</button>
+            <button type="button" className='next-button' onClick={nextStep}>Next</button>
           )}
           {activeStep > 0 && (
-            <button type="button" className={styles['prev-button']} onClick={prevStep}>Back</button>
+            <button type="button" className='prev-button' onClick={prevStep}>Back</button>
           )}
           {activeStep === 2 && formData.agreement && (
-            <button className={`${styles['register-submit-btn']} ${styles['next-button']}`} type="submit">Submit</button>
+            <button className={`register-submit-btn next-button`} type="submit">Submit</button>
           )}
         </div>
         {Object.keys(formErrors).length > 0 && (
-          <div className={styles['error-message']}>
+          <div className="error-message">
             {Object.values(formErrors).map((error, index) => (
               <p key={index}>{error}</p>
             ))}
