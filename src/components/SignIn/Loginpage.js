@@ -2,14 +2,25 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styles from "./registerpage.module.css"; // Import CSS module
 import { FcGoogle } from 'react-icons/fc';
+<<<<<<< Updated upstream
 // import Swal from 'sweetalert2'
 import LoginImage from './../../assets/images/loginImage.jpg'
+=======
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import LoginImage from './../../assets/images/loginImage.jpg';
+
+>>>>>>> Stashed changes
 const LoginPage = () => {
   const navigate = useNavigate();
   const [formData,setFormData]=useState({
     email:"",
     password:""
   });
+<<<<<<< Updated upstream
+=======
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+>>>>>>> Stashed changes
 
   const handleChange=(event)=>{
     const {name,value}=event.target;
@@ -84,10 +95,32 @@ const LoginPage = () => {
         </div>
         <div className={styles['input-wrapper']}>
           <label>Password</label>
+<<<<<<< Updated upstream
           <input type='password' name='password' value={formData.password} onChange={handleChange}></input>
         </div>
         <div>
           <button className={styles['register-btn']} onClick={handleSubmit}>SignIn</button>
+=======
+          <div className={styles['password-input-wrapper']}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name='password'
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <button
+              type='button'
+              className={styles['password-toggle-btn']}
+              onClick={() => setShowPassword((prevShowPassword) => !prevShowPassword)}
+            >
+              {showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+            </button>
+          </div>
+        </div>
+        {errorMessage && <div className={styles['error-message']}><strong>Invalid Email/Password</strong></div>}
+        <div style={{width:"100%"}}>
+          <button id="landing_signup" className={styles['register-btn']} onClick={handleSubmit}>SignIn</button>
+>>>>>>> Stashed changes
         </div>
         <hr />
         <div className={styles['gAuth']} onClick={handleGoogleSignIn}>
