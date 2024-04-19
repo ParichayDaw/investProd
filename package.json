@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@canvasjs/react-charts": "^1.0.2",
     "@chakra-ui/react": "^2.8.2",
     "@faker-js/faker": "^8.4.1",
     "@iconify/react": "^4.1.1",
