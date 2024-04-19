@@ -164,7 +164,7 @@ class ApexChart extends Component {
     const options = {
       animationEnabled: true,
       title: {
-        text: "Comparison of Old Data and Dummy Data"
+        text: "Comparison of PlanName and Dummy Data"
       },
       axisX: {
         title: "Plan Name",
@@ -207,7 +207,8 @@ class ApexChart extends Component {
         legendText: "Dummy Data",
         axisYType: "secondary",
         showInLegend: true,
-        dataPoints: dummyData
+        dataPoints: dummyData,
+        color: "#818589"
       }]
     };
 
