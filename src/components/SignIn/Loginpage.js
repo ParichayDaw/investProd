@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from "./registerpage.module.css";
 import { FcGoogle } from 'react-icons/fc';
 import LoginImage from './../../assets/images/loginImage.jpg';
+import Swal from 'sweetalert2';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
+  // const [selectedRole, setSelectedRole] = useState("client"); // State to track selected user role
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -23,10 +28,14 @@ const LoginPage = () => {
 
   const handleSubmit = async () => {
     if (!formData.email || !formData.password) {
-      setErrorMessage('Please enter both email and password.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please enter both email and password.'
+      });
       return;
     }
-
+  
     try {
       const response = await fetch('http://localhost:8000/api/v1/check-auth/login', {
         method: 'POST',
@@ -39,22 +48,58 @@ const LoginPage = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setErrorMessage(`Error: ${errorData.message}`);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: errorData.message
+        });
         return;
       }
-
+   
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
+
+      // Check the selected role to redirect appropriately
       if (data.user.role === 'client') {
-        navigate('/cldash');
-      } else {
+        navigate('/client_dashboard');
+      } else if (data.user.role === 'advisor') {
         navigate('/advisor_dashboard');
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You are not authorized to access this dashboard.'
+        });
       }
     } catch (error) {
       console.error('Error:', error);
-      setErrorMessage('An unexpected error occurred. Please try again later.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An unexpected error occurred. Please try again later.'
+      });
     }
   };
+
+  useEffect(() => {
+    // Check if the cookie is set
+    const cookieExists = document.cookie.includes('jwt');
+    
+    if (cookieExists) {
+      if(sessionStorage.getItem('role') == 'advisor'){
+        window.location.href = '/advisor_dashboard';
+      }
+      else if(sessionStorage.getItem('role') == 'client'){
+        window.location.href = '/client_dashboard';
+      }
+    } else {
+      // Cookie is not set
+      // Perform any action you want if the cookie is not set, such as redirecting to the login page
+      if (!['/login'].includes(window.location.pathname)) {
+        window.location.href = '/login';
+      }
+    }
+  }, []); 
 
   return (
     <div className={styles['register-container']}>
@@ -62,9 +107,9 @@ const LoginPage = () => {
         <img src={LoginImage} alt='' />
       </div>
       <div className={styles['register-right']}>
-        <h2> Welcome Back</h2>
+        <h2 className={styles.h2_label}> Welcome Back</h2>
         <div className={styles['input-wrapper']} style={{ width: "fit-content" }} >
-          <h4>New User!!!<a href='/register'>Register Here</a></h4>
+          <h4 className={styles['h4-register-label']}>New User &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href='/register' className={styles.register_link}>Register Here</a></h4>
         </div>
         <div className={styles['input-wrapper']}>
           <label>Email</label>
@@ -72,11 +117,24 @@ const LoginPage = () => {
         </div>
         <div className={styles['input-wrapper']}>
           <label>Password</label>
-          <input type='password' name='password' value={formData.password} onChange={handleChange} />
+          <input type={showPassword ? 'text' : 'password'} name='password' value={formData.password} onChange={handleChange} />
+          <button
+                type='button'
+                className={styles['password-toggle-btn']}
+                onClick={() => setShowPassword((prevShowPassword) => !prevShowPassword)}
+              >
+                {showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+              </button>
         </div>
-        {errorMessage && <div className={styles['error-message']}><strong>Invalid Email/Passwoard</strong></div>}
+        {/* {errorMessage && <div className={styles['error-message']}><strong>Invalid Email/Passwoard</strong></div>} */}
+        {/* <div className={styles['input-wrapper']}>
+          <select className="role-based-toggle" value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
+            <option value="client">Client</option>
+            <option value="advisor">Advisor</option>
+          </select>
+        </div> */}
         <div style={{width:"100%"}}>
-          <button id="landing_signup" className={styles['register-btn']} onClick={handleSubmit}>SignIn</button>
+          <button id="landing_signup" className={styles['register-btn']} onClick={handleSubmit}>Sign In</button>
         </div>
         <hr />
         <div id="googlebutton" className={styles['gAuth']} onClick={handleGoogleSignIn}>
