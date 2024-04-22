@@ -21,7 +21,7 @@ import PlanView from "./ClientScreens/Plans/PlanView";
 import MultiStepForm from "./ClientScreens/FirstForm/MultiStepForm";
 import MultiFormEdit from "./ClientScreens/Profilepage/MultiFormEdit";
 
-
+import EarningCard from "./NewCardComponent/EarningCard";
 
 
 
@@ -47,6 +47,7 @@ function App() {
           <Route path="/contact" element={<HomepageInfo />} />
           <Route path="/clform" element={<MultiStepForm />} />
           
+          <Route path="/earning" element={<EarningCard />} />
           <Route element={<BaseLayout />}>
             <Route path="/advisor_dashboard" element={<Dashboard />} />
             <Route path="/clientlist" element={<Clientlist/>} />
