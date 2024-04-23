@@ -128,6 +128,8 @@ function InvestmentSummary({ transactions, advisorNames, returns, etta , avggg})
 export default InvestmentSummary;
 
 
+
+
 // import React from 'react';
 // import PiChart from './PiChart';
 // import PlanTable from './PlanTable'; // Assuming PlanTable component is imported from a separate file

@@ -20,11 +20,11 @@ import PlanView from "./ClientScreens/Plans/PlanView";
 import MultiStepForm from "./ClientScreens/FirstForm/MultiStepForm";
 import MultiFormEdit from "./ClientScreens/Profilepage/MultiFormEdit";
 import AdvisorProfilePage from "./ClientScreens/AdvisorProfilePlans/AdvisorProfilePage";
-// import ProtectedRoute from "./ProtectedRoute";
+
 
 import News from "./News/News";
 import Stoks from './Stocks/Stoks'
-import EarningCard from "./NewCardComponent/EarningCard";
+
 import {
   HomepageAbout,
   Service,
@@ -64,7 +64,7 @@ function App() {
           <Route path="/client_registration_form" element={<MultiStepForm />} />
           <Route path="/stocks" element={<Stoks />} />
 
-          <Route path="/earning" element={<EarningCard />} />
+          
           <Route element={<BaseLayout />}>
             <Route path="/advisor_dashboard" element={<Dashboard />} />
             <Route path="/advisor/clientList" element={<Clientlist />} />
