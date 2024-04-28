@@ -115,6 +115,14 @@ function InvestmentSummary({ transactions, advisorNames, returns, etta , avggg})
             </section>
 
 
+{/* Stock Component Added */}
+
+
+            <div style={{ border: "2px solid #fff", borderRadius: "5px", padding: "10px", marginBottom: "20px",marginTop: "20px" ,boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)'}}>
+                <ChakraProvider>
+                    <CliStock />
+                </ChakraProvider>
+            </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "auto auto", padding: "30px 0", gap: "16px" }}>
 
