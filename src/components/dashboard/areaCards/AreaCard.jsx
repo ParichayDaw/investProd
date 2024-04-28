@@ -6,7 +6,7 @@ import {
   Tooltip,
 } from "recharts";
 
-const AreaCard = ({ colors, percentFillValue, cardInfo }) => {
+const AreaCard = ({ colors, percentFillValue, cardInfo ,imageSrc}) => {
   const filledValue = (percentFillValue / 100) * 360; // 360 degress for a full circle
   const remainedValue = 360 - filledValue;
 
@@ -51,6 +51,9 @@ const AreaCard = ({ colors, percentFillValue, cardInfo }) => {
           </Pie>
           <Tooltip formatter={renderTooltipContent} />
         </PieChart> */}
+        <div style={{ marginLeft: '65px' }}> {/* Add margin bottom */}
+            <img src={imageSrc} alt="Money" width={100} height={100}/>
+          </div>
       </div>
     </div></center>
   );
@@ -62,4 +65,5 @@ AreaCard.propTypes = {
   colors: PropTypes.array.isRequired,
   percentFillValue: PropTypes.number.isRequired,
   cardInfo: PropTypes.object.isRequired,
+  imageSrc: PropTypes.string.isRequired,
 };

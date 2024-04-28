@@ -8,7 +8,13 @@ import AreaCard from "./../../components/dashboard/areaCards/AreaCard";
 import "./../../components/dashboard/areaCards/AreaCards.scss";
 import "./../../components/dashboard/areaTable/AreaTable.scss";
 import ApexChart from './CliBarChart';
+import moneyImage1 from './../../assest/images/money1.png';
+import moneyImage2 from './../../assest/images/money2.png';
+import moneyImage3 from './../../assest/images/money3.png';
 
+
+import CliStock from './../../CliStockChart/CliStock'
+import { ChakraProvider } from '@chakra-ui/react'
 function InvestmentSummary({ transactions, advisorNames, returns, etta , avggg}) {
 
     if (!transactions || !advisorNames || !returns) {
@@ -84,6 +90,7 @@ function InvestmentSummary({ transactions, advisorNames, returns, etta , avggg})
                         value: formatCurrency(totalInvestedAmount),
                         // text: `You have ${formatCurrency(totalInvestedAmount)} Amount.`,
                     }}
+                    imageSrc={moneyImage1}
                 />
                 <AreaCard
                     colors={["#e4e8ef", "#4ce13f"]}
@@ -93,6 +100,7 @@ function InvestmentSummary({ transactions, advisorNames, returns, etta , avggg})
                         value: formatCurrency(avggg*totalInvestedAmount/100),
                         // text: `You have ${formatCurrency(totalProfitAmount)} Amount.`,
                     }}
+                    imageSrc={moneyImage2}
                 />
                 <AreaCard
                     colors={["#e4e8ef", "#f29a2e"]}
@@ -102,8 +110,11 @@ function InvestmentSummary({ transactions, advisorNames, returns, etta , avggg})
                         value: formatCurrency(totalInvestedAmount + avggg*totalInvestedAmount/100),
                         // text: `You have ${formatCurrency(totalInvestedAmount + totalProfitAmount)} current value.`,
                     }}
+                    imageSrc={moneyImage3}
                 />
             </section>
+
+
 
             <div style={{ display: "grid", gridTemplateColumns: "auto auto", padding: "30px 0", gap: "16px" }}>
 
@@ -125,6 +136,7 @@ function InvestmentSummary({ transactions, advisorNames, returns, etta , avggg})
 }
 
 export default InvestmentSummary;
+
 
 
 

@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeContext } from "../../../context/ThemeContext";
 import "./AreaCharts.scss";
 import axios from 'axios';
 import ApexChart from '../../../ClientScreens/DashBoard/BarChart';
+import loadingGif from "./../../../assest/images/Animation2.gif"; // Import your loading GIF image
 
 const AreaBarChart = () => {
   const [plansData, setPlansData] = useState(null);
   const [datu, setDatu] = useState(null);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const fetchPlansData = async () => {
@@ -36,6 +38,7 @@ const AreaBarChart = () => {
           gains: plan.total_current_gains,
         }));
         setDatu(calculatedData.plans_data);
+        setLoading(false); // Set loading to false once data is loaded
       } catch (error) {
         console.error('Error fetching plans data:', error.message);
       }
@@ -51,10 +54,16 @@ const AreaBarChart = () => {
         <div className="chart-info-data"></div>
       </div>
       <div className="bar-chart-wrapper">
-        {datu ? (
-          <ApexChart plans_data={datu} widthChart={600}/>
+        {loading ? ( // Conditionally render loading animation
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <img src={loadingGif} alt="Loading..." style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          </div>
         ) : (
-          <div></div>
+          datu ? (
+            <ApexChart plans_data={datu} widthChart={600}/>
+          ) : (
+            <div></div>
+          )
         )}
       </div>
     </div>
@@ -62,6 +71,7 @@ const AreaBarChart = () => {
 };
 
 export default AreaBarChart;
+
 
 
 

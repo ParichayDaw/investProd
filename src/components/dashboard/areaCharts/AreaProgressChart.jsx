@@ -1,64 +1,67 @@
 import { useState, useEffect } from 'react';
+import loadingGif from "./../../../assest/images/Animation2.gif"; // Import your loading GIF image
 
 const AreaProgressChart = () => {
   const [progressData, setProgressData] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-        const fetchData = async () => {
-          try 
-          {
-            const response = await fetch('http://localhost:8000/api/v1/advisor/list-of-plans-with-more-subscriptions', {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              credentials: 'include'
-            })
-            
-            if (!response.ok) {
-              throw new Error('Failed to fetch user data');
-            }
-            const data = await response.json();
-            setProgressData(data.plans);
-          }
-    
-          catch (error) {
-            console.error('Error fetching data:', error);
-          }
-        };
-    
-        fetchData();
-      }, []);
-      
-  return (
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/v1/advisor/list-of-plans-with-more-subscriptions', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        });
 
-     <div className="adv-progress-bar" style={{backgroundColor:"#ffffff", boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)'}}>
-       <div className="progress-bar-info">
-         <h4 className="adv-progress-bar-title">Most Sold Plans</h4>
-       </div>
-       <div className="adv-progress-bar-list">
-          {progressData.map((progressData) => {
-           return (
-             <div className="progress-bar-item" key={progressData._id}>
-               <div className="adv-bar-item-info">
-                 <p className="adv-bar-item-info-name">{progressData.planName}</p>
-                 <p className="adv-bar-item-info-value">
-                   {(progressData.boughtClientIds).length}
-                 </p>
-               </div>
-               <div className="adv-bar-item-full">
-                 <div
-                   className="adv-bar-item-filled"
-                   style={{
-                     width: `${(progressData.boughtClientIds).length*5}%`,
-                   }}
-                 ></div>
-               </div>
-             </div>
-           );
-         })} 
-       </div>
-     </div>
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+        const data = await response.json();
+        setProgressData(data.plans);
+        setLoading(false); // Set loading to false once data is loaded
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div className="adv-progress-bar" style={{ backgroundColor: "#ffffff", boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
+      <div className="progress-bar-info">
+        <h4 className="adv-progress-bar-title">Most Sold Plans</h4>
+      </div>
+      <div className="progress-bar-list">
+        {loading ? ( // Conditionally render loading animation
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <img src={loadingGif} alt="Loading..." style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          </div>
+        ) : (
+          progressData.map((progressData) => (
+            <div className="progress-bar-item" key={progressData._id}>
+              <div className="adv-bar-item-info">
+                <p className="adv-bar-item-info-name">{progressData.planName}</p>
+                <p className="adv-bar-item-info-value">
+                  {(progressData.boughtClientIds).length}
+                </p>
+              </div>
+              <div className="adv-bar-item-full">
+                <div
+                  className="adv-bar-item-filled"
+                  style={{
+                    width: `${(progressData.boughtClientIds).length * 5}%`,
+                  }}
+                ></div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
   );
 };
 

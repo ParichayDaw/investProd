@@ -4,7 +4,8 @@ import { Typography } from '@mui/material';
 import styles from "./dashboard.module.css";
 import axios from 'axios';
 import notification from "./../../assets/icons/notification.png";
-import user from "./../../assets/icons/moon.svg"
+import user from "./../../assets/icons/moon.svg";
+import loadingGif from "./../../assest/images/Animation.gif"; // Import your loading GIF image
 
 function DashboardCl() {
   const [transactions, setTransactions] = useState([]);
@@ -14,7 +15,7 @@ function DashboardCl() {
   const [plansData, setPlansData] = useState([]);
   const [mapu, setMapu] = useState([]);
   const [profileInfo, setProfileInfo] = useState({
-    img: '', // Add the img property to store the image data
+    img: '',
     name: '',
     email: '',
     age: '',
@@ -25,6 +26,7 @@ function DashboardCl() {
   });
 
   const [datu, setDatu] = useState(null);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,8 +41,8 @@ function DashboardCl() {
 
         if (response.status === 200) {
           const data = response.data.client;
-          const imageDataArray = data.profilePhoto?.data?.data || []; // Get the image data array
-          const imageDataUrl = arrayToDataURL(imageDataArray); // Convert array to data URL
+          const imageDataArray = data.profilePhoto?.data?.data || [];
+          const imageDataUrl = arrayToDataURL(imageDataArray);
           setProfileInfo({
             cota: data.profilePhoto.contentType,
             img: imageDataUrl,
@@ -130,11 +132,10 @@ function DashboardCl() {
         }));
 
         const axiosResponse = await axios.post('http://localhost:5000/calculate_sts', { plans_data: mappedData });
-        const calculatedData = axiosResponse.data; // Use axiosResponse.data directly
-
+        const calculatedData = axiosResponse.data;
 
         setDatu(calculatedData.plans_data);
-
+        setLoading(false); // Set loading to false once data is loaded
 
       } catch (error) {
         console.error('Error fetching plans data:', error.message);
@@ -143,8 +144,6 @@ function DashboardCl() {
 
     fetchPlansData();
   }, [profileInfo]);
-
-
 
   useEffect(() => {
     (function (d, t) {
@@ -161,7 +160,15 @@ function DashboardCl() {
     })(document, 'script');
   }, []);
 
-  if (!datu) { return (<div></div>); }
+  if (loading) { // Render loading animation if loading is true
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div style={{ position: 'relative', top: '-80px' }}>
+        <img src={loadingGif} alt="Loading..." style={{ maxWidth: '100%', maxHeight: '100%' }} />
+      </div>
+    </div>
+    );
+  }
 
   function calculateAverageGainPercentage(plansData) {
     let totalGainPercentage = 0;
@@ -188,19 +195,6 @@ function DashboardCl() {
 
   return (
     <div className={styles.App}>
-      {/* <Typography className={styles["profile-landing-name"]} variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back {profileInfo.name} 
-</Typography> */}
-
-      {/* <div className={styles.UserInfo}>
-  <button>
-    <img src={notification} alt="" />
-  </button>
-  <h4>{profileInfo.name}</h4>
-  <img src={profileInfo.img} alt="" className={styles.userProfileImg} />
-</div> */}
-
-
       <h2 className={styles.heading}> Portfolio Summary</h2>
 
       <InvestmentSummary transactions={transactions} advisorNames={advisorNames} returns={returns} etta={datu} avggg={averageGainPercentage} />
