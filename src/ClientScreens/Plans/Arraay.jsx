@@ -24,15 +24,17 @@ const Arraay = ({ plans, risk, ids }) => {
 
       <div className={styles.InnerBox}>
         <h2 className={styles.heading}>Plans For You</h2>
+        <div  >
         <Carousel responsive={responsive} infinite={true} className={styles.Carousel}>
           {topRatedPlans.map((plan, index) => (
-            <div key={index}>
+            <div key={index} >
               <Link to={`/planDetail/${plan._id}`}>
                 <ProfileCard plan={plan} ids={ids} />
               </Link>
             </div>
           ))}
         </Carousel>
+        </div>
       </div>
 
       <div className={styles.InnerBox}>

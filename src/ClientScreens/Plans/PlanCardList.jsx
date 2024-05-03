@@ -88,7 +88,12 @@ const PlanCardList = ({ plans, ids }) => {
   return (
     <div style={{ marginTop: '4vh' }} >
       <div className={styles.clContainer}>
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', padding: '0 1vw' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', padding: '0 1vw',    padding: '15px',background: 'white',
+ borderRadius: '20px',
+    marginBottom: '10px',
+    fontSize: 'x-large',
+    fontWeight: '500'
+ }}>
           <div className={styles.flex}>
             <label> Search: </label>
             <input
@@ -135,9 +140,9 @@ const PlanCardList = ({ plans, ids }) => {
                     {...props}
                     style={{
                       ...props.style,
-                      height: '6px',
+                      height: '8px',
                       width: '100%',
-                      backgroundColor: '#ccc',
+                      backgroundColor: 'blue',
                       borderRadius: '4px',
                     }}
                   >
