@@ -3,7 +3,7 @@ body {
   background-color: #f2f2f2;
   /* Light gray background */
 
-  font-family: 'Manrope', sans-serif;
+  font-family: 'sans-serif';
   /* Manrope font */
 
 }
@@ -118,7 +118,7 @@ body {
 }
 
 .adnewplans_heading {
-  font-family: DM serif text;
+  font-family: 'sans-serif';
   font-size: 2.5vw;
 }
 

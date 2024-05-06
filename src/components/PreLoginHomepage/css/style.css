@@ -3,7 +3,7 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css");
 
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'sans-serif';
   color: #0c0c0c;
   background-color: #992e2e;
   overflow-x: hidden;

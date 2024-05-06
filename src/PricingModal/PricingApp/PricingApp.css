@@ -22,7 +22,7 @@
   position: relative;
   min-height: 100vh;
   min-height: 100dvh;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'sans-serif';
   font-weight: var(--primary-fw);
   font-size: var(--primary-fs);
   display: grid;

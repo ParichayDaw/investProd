@@ -1,7 +1,7 @@
 .cardHeader {
     display: flex;
     justify-content: space-between;
-    font-family: 'Agdasima', sans-serif;
+    font-family: 'sans-serif';
 }
 
 .card {
@@ -14,11 +14,11 @@
 }
 
 .cardNumber {
-    font-family: 'Changa', sans-serif;
+    font-family: 'sans-serif';
 }
 
 .validThrough {
-    font-family: 'Agdasima', sans-serif;
+    font-family: 'sans-serif';
 }
 
 .validThrough {
@@ -37,7 +37,7 @@
 }
 
 .footerCard {
-    font-family: 'Agdasima', sans-serif;
+    font-family: 'sans-serif';
 }
 
 .card::after {
