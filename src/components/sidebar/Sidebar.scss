@@ -171,8 +171,9 @@
   }
 
   .menu-link-text{
-    font-family: var(--font-family-manrope);
+    font-family: sans-serif;
     font-weight: 500;
+    font-size: 16px;
     
     @media(max-width: 1200px){
         display: none;

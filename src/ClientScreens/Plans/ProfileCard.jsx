@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from "./ProfileCard.module.css";
 import premium from '../../assets/images/premium.png'
 import tick from '../../assets/images/tick.png'
-
+import { useQuery } from "@tanstack/react-query";
 const ProfileCard = ({ plan, ids }) => {
   const [tab, setTab] = useState(null);
 

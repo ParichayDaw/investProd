@@ -185,7 +185,7 @@ const ClSidebar = () => {
             <li className={`menu-item ${location.pathname.includes("/profile") || location.pathname.includes("/profile/Edit") ? "active" : ""}`}>
               <Link to="/profile" className="menu-link">
                 <span className="menu-link-icon">
-                  <CgProfile size={18} />
+                  <CgProfile size={20} />
                 </span>
                 <span className="menu-link-text">Profile</span>
               </Link>
